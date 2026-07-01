@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot Profil</title>
     <style>
-        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
-        #app { width: 100%; max-width: 600px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { margin-top: 0; color: #333; }
-        .subtitle { color: #666; margin-bottom: 20px; font-size: 0.9em; }
-        #chat-window { height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; background: #fafafa; }
-        .message { margin-bottom: 10px; padding: 8px; border-radius: 5px; }
-        .user { background: #e1f5fe; text-align: right; }
-        .bot { background: #eee; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
+        #app { width: 100%; max-width: 600px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { margin-top: 0; color: #1a1a1a; font-size: 1.5em; }
+        .subtitle { color: #555; margin-bottom: 20px; font-size: 0.95em; line-height: 1.5; }
+        #chat-window { height: 400px; overflow-y: auto; border: 1px solid #e0e0e0; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 15px; border-radius: 15px; max-width: 85%; font-size: 0.95em; line-height: 1.4; }
+        .user { background: #007bff; color: white; align-self: flex-end; }
+        .bot { background: #e9ecef; color: #333; align-self: flex-start; }
         #input-area { display: flex; gap: 10px; }
-        input { flex-grow: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0056b3; }
     </style>
 </head>
 <body>
@@ -27,7 +28,7 @@
     <div id="chat-window"></div>
     
     <div id="input-area">
-        <input type="text" id="user-input" placeholder="Posez votre question...">
+        <input type="text" id="user-input" placeholder="Tapez votre question ici..." autocomplete="off">
         <button onclick="sendMessage()">Envoyer</button>
     </div>
 </div>
@@ -36,8 +37,8 @@
     const chatWindow = document.getElementById('chat-window');
     const userInput = document.getElementById('user-input');
 
-    // URL de votre fonction Vercel (à remplacer après déploiement)
-    const API_URL = '/api/chat'; 
+    // ATTENTION : Remplacez cette URL par l'URL de votre fonction Vercel déployée
+    const API_URL = 'ask-my-cv.vercel.app/api/chat'; 
 
     async function sendMessage() {
         const text = userInput.value.trim();
@@ -55,7 +56,7 @@
             const data = await response.json();
             addMessage(data.reply, 'bot');
         } catch (error) {
-            addMessage('Erreur de connexion au serveur.', 'bot');
+            addMessage('Désolé, une erreur est survenue lors de la communication avec le serveur.', 'bot');
         }
     }
 
@@ -67,7 +68,9 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+    userInput.addEventListener('keypress', (e) => { 
+        if (e.key === 'Enter') sendMessage(); 
+    });
 </script>
 </body>
 </html>
